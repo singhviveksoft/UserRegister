@@ -16,7 +16,7 @@ class User extends HiveObject {
   String? lName;
 
   @HiveField(3)
-  int? phoneNumber;
+  String? phoneNumber;
 
   @HiveField(4)
   String? email;
@@ -61,7 +61,7 @@ class User extends HiveObject {
   String? pinCode;
 
   User(
-      [this.img,
+  {this.img,
       this.fName,
       this.lName,
       this.phoneNumber,
@@ -78,5 +78,5 @@ class User extends HiveObject {
       this.landmark,
       this.city,
       this.state,
-      this.pinCode]);
+      this.pinCode});
 }

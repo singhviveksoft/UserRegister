@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'dart:ui';
 
@@ -21,7 +20,7 @@ class UserRegister extends StatefulWidget {
 }
 
 class _UserRegisterState extends State<UserRegister> with InputValidationMixin {
-
+  var choosenImage;
   final _formGlobalKey = GlobalKey<FormState>();
   final TextEditingController _fName = TextEditingController();
   final TextEditingController _lName = TextEditingController();
@@ -39,319 +38,347 @@ class _UserRegisterState extends State<UserRegister> with InputValidationMixin {
           child: SingleChildScrollView(
             child: Form(
               key: _formGlobalKey,
-              child:
-
-              Consumer<UserRegisterProvider>(
+              child: Consumer<UserRegisterProvider>(
                   builder: (context, userRegisterProvider, child) {
-                    return   Column(
-                      children: [
-                        const Text(
-                          'Register',
-                          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                        ),
-                         InkWell(
-                           onTap: (){
-                             _bottomSheet(context);
-                           },
-                           child: userRegisterProvider.image==null?  CircleAvatar(
-                             radius: 50,
-                            child:  ClipRRect(
-                                borderRadius:BorderRadius.circular(50),
-                                child: Image.asset('images/user.png')),
-
-                        ):Image.file(userRegisterProvider.image!,
-                             fit: BoxFit.cover,
-                             ),
-                         ),
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
-                            child: Text(
-                              'First Name *',
-                              style: TextStyle(
-                                  fontSize: 15.0, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          controller: _fName,
-                          validator: (String? Fvalue) {
-                            if (!isNameValid(Fvalue!)) {
-                              return 'Not less than 3 character';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              prefixIcon: const Icon(
-                                Icons.person,
-                                color: Colors.black,
-                              ),
-                              hintText: 'Enter your first name here',
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(5.0))),
-                        ),
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
-                            child: Text(
-                              'Last Name *',
-                              style: TextStyle(
-                                  fontSize: 15.0, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          controller: _lName,
-                          validator: (String? Lvalue) {
-                            if (!isNameValid(Lvalue!)) {
-                              return 'Not less than 3 character';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              prefixIcon: const Icon(
-                                Icons.person,
-                                color: Colors.black,
-                              ),
-                              hintText: 'Last Name',
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(5.0))),
-                        ),
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
-                            child: Text(
-                              'Phone Number *',
-                              style: TextStyle(
-                                  fontSize: 15.0, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          maxLength: 10,
-                          controller: _mobNos,
-                          keyboardType: TextInputType.phone,
-                          validator: (String? nos) {
-                            if (!isMobileValid(nos!)) {
-                              return 'Plz enter 10 digit nos';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              prefixIcon: const Icon(
-                                Icons.phone,
-                                color: Colors.black,
-                              ),
-                              hintText: 'Phone Number',
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(5.0))),
-                        ),
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
-                            child: Text(
-                              'Email *',
-                              style: TextStyle(
-                                  fontSize: 15.0, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          controller: _email,
-                          validator: (String? email) {
-                            if (!isEmailValid(email!)) {
-                              return 'Plz enter proper email';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.email,
-                                color: Colors.black,
-                              ),
-                              hintText: 'Email',
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(5.0))),
-                        ),
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
-                            child: Text(
-                              'Gender *',
-                              style: TextStyle(
-                                  fontSize: 15.0, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Radio(
-                                value: 1,
-                                groupValue: userRegisterProvider.genderType,
-                                onChanged: (value) {
-                                  userRegisterProvider.getGender(value as int);
-                                  print(value.toString());
-                                }),
-                            const Text('Men'),
-                            Radio(
-                                value: 2,
-                                groupValue: userRegisterProvider.genderType,
-                                onChanged: (value) {
-                                  userRegisterProvider.getGender(value as int);
-                                  print(value.toString());
-                                }),
-                            const Text('Female'),
-                          ],
-                        ),
-
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
-                            child: Text(
-                              'Password *',
-                              style: TextStyle(
-                                  fontSize: 15.0, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          obscureText: userRegisterProvider.passwordVisible,
-                          controller: _passwd,
-                          validator: (String? pwd) {
-                            if (validatePassword(pwd!)) {
-                              return 'Plz enter proper pwd';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-
-                            suffixIcon: IconButton(
-    icon: Icon(
-    // Based on passwordVisible state choose the icon
-    userRegisterProvider.passwordVisible
-    ? Icons.visibility
-        : Icons.visibility_off,
-    color: Theme.of(context).primaryColorDark,
-    ),
-    onPressed: () {
-    // Update the state i.e. toogle the state of passwordVisible variable
-   userRegisterProvider.getPwdVisibility(!userRegisterProvider.passwordVisible);
-                    },
+                return Column(
+                  children: [
+                    const Text(
+                      'Register',
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
+                    InkWell(
+                      onTap: () {
+                        _bottomSheet(context);
+                      },
+                      child: userRegisterProvider.image == null
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: SizedBox(
 
-
-
-
-
-                              
-                              prefixIcon: const Icon(
-                                Icons.lock,
-                                color: Colors.black,
-                              ),
-                              hintText: 'Password',
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(5.0))),
-                        ),
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
-                            child: Text(
-                              'Confirm Password *',
-                              style: TextStyle(
-                                  fontSize: 15.0, fontWeight: FontWeight.bold),
+                                  width: 100,
+                                  height: 100,
+                                  child: Image.asset('images/user.png',fit: BoxFit.contain,)))
+                          : Image.file(
+                              userRegisterProvider.image!,
+                              fit: BoxFit.cover,
                             ),
-                          ),
+                    ),
+                    const Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
+                        child: Text(
+                          'First Name *',
+                          style: TextStyle(
+                              fontSize: 15.0, fontWeight: FontWeight.bold),
                         ),
-                        TextFormField(
-                          obscureText: userRegisterProvider.confirmPasswordVisible,
-                          controller: _confirmPass,
-                          validator: (String? pwd) {
-                            if (_confirmPass.text != _passwd.text) {
-                              return 'Password not match';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _fName,
+                      validator: (String? Fvalue) {
+                        if (!isNameValid(Fvalue!)) {
+                          return 'Not less than 3 character';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          errorBorder: const OutlineInputBorder(
 
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  // Based on passwordVisible state choose the icon
-                                  userRegisterProvider.confirmPasswordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Theme.of(context).primaryColorDark,
-                                ),
-                                onPressed: () {
-                                  // Update the state i.e. toogle the state of passwordVisible variable
-                                  userRegisterProvider.getConfirmPwdVisibility(!userRegisterProvider.confirmPasswordVisible);
-                                },
-                              ),
-
-
-
-                              prefixIcon: const Icon(
-                                Icons.lock,
-                                color: Colors.black,
-                              ),
-                              hintText: 'Confirm Password',
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(5.0))),
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (_formGlobalKey.currentState!.validate()) {
-                                Navigator.pushNamed(context, Routing.info);
-                              }
-                            },
-                            child: const Text("NEXT"),
+                              borderSide: BorderSide(color: Colors.red, width:1)) ,
+                          prefixIcon: const Icon(
+                            Icons.person,
+                            color: Colors.black,
                           ),
-                        )
+                          hintText: 'Enter your first name here',
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(5.0))),
+                    ),
+                    const Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
+                        child: Text(
+                          'Last Name *',
+                          style: TextStyle(
+                              fontSize: 15.0, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _lName,
+                      validator: (String? Lvalue) {
+                        if (!isNameValid(Lvalue!)) {
+                          return 'Not less than 3 character';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          errorBorder: const OutlineInputBorder(
+
+                              borderSide: BorderSide(color: Colors.red, width:1)) ,
+                          prefixIcon: const Icon(
+                            Icons.person,
+                            color: Colors.black,
+                          ),
+                          hintText: 'Last Name',
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(5.0))),
+                    ),
+                    const Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
+                        child: Text(
+                          'Phone Number *',
+                          style: TextStyle(
+                              fontSize: 15.0, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    TextFormField(
+                      maxLength: 10,
+                      controller: _mobNos,
+                      keyboardType: TextInputType.phone,
+                      validator: (String? nos) {
+                        if (!isMobileValid(nos!)) {
+                          return 'Plz enter 10 digit nos';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          prefixIcon: const Icon(
+                            Icons.phone,
+                            color: Colors.black,
+                          ),
+                          hintText: 'Phone Number',
+                          errorBorder: const OutlineInputBorder(
+
+                    borderSide: BorderSide(color: Colors.red, width:1)) ,
+
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(5.0))),
+                    ),
+                    const Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
+                        child: Text(
+                          'Email *',
+                          style: TextStyle(
+                              fontSize: 15.0, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _email,
+                      validator: (String? email) {
+                        if (!isEmailValid(email!)) {
+                          return 'Plz enter proper email';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          errorBorder: const OutlineInputBorder(
+
+                              borderSide: BorderSide(color: Colors.red, width:1)) ,
+                          prefixIcon: const Icon(
+                            Icons.email,
+                            color: Colors.black,
+                          ),
+                          hintText: 'Email',
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(5.0))),
+                    ),
+                    const Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
+                        child: Text(
+                          'Gender *',
+                          style: TextStyle(
+                              fontSize: 15.0, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Radio(
+                            value: 1,
+                            groupValue: userRegisterProvider.genderType,
+                            onChanged: (value) {
+                              userRegisterProvider.getGender(value as int);
+                              print(value.toString());
+                            }),
+                        const Text('Men'),
+                        Radio(
+                            value: 2,
+                            groupValue: userRegisterProvider.genderType,
+                            onChanged: (value) {
+                              userRegisterProvider.getGender(value as int);
+                              print(value.toString());
+                            }),
+                        const Text('Female'),
                       ],
-                    );
-                  }
-              ),
+                    ),
+                    const Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
+                        child: Text(
+                          'Password *',
+                          style: TextStyle(
+                              fontSize: 15.0, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    TextFormField(
 
+                      obscureText: userRegisterProvider.passwordVisible,
+                      controller: _passwd,
+                      validator: (String? pwd) {
+                        if (validatePassword(pwd!)) {
+                          return 'Plz enter proper pwd';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          errorBorder: const OutlineInputBorder(
 
+                              borderSide: BorderSide(color: Colors.red, width:1)) ,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              // Based on passwordVisible state choose the icon
+                              userRegisterProvider.passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Theme.of(context).primaryColorDark,
+                            ),
+                            onPressed: () {
+                              // Update the state i.e. toogle the state of passwordVisible variable
+                              userRegisterProvider.getPwdVisibility(
+                                  !userRegisterProvider.passwordVisible);
+                            },
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.lock,
+                            color: Colors.black,
+                          ),
+                          hintText: 'Password',
+
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(5.0))),
+                    ),
+                    const Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
+                        child: Text(
+                          'Confirm Password *',
+                          style: TextStyle(
+                              fontSize: 15.0, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    TextFormField(
+                      obscureText: userRegisterProvider.confirmPasswordVisible,
+                      controller: _confirmPass,
+                      validator: (String? pwd) {
+                        if (_confirmPass.text != _passwd.text) {
+                          return 'Password not match';
+                        }else if(isEmptyValid(pwd!)){
+                          return 'Plz enter proper pwd';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          errorBorder: const OutlineInputBorder(
+
+                              borderSide: BorderSide(color: Colors.red, width:1)) ,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              // Based on passwordVisible state choose the icon
+                              userRegisterProvider.confirmPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Theme.of(context).primaryColorDark,
+                            ),
+                            onPressed: () {
+                              // Update the state i.e. toogle the state of passwordVisible variable
+                              userRegisterProvider.getConfirmPwdVisibility(
+                                  !userRegisterProvider.confirmPasswordVisible);
+                            },
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.lock,
+                            color: Colors.black,
+                          ),
+                          hintText: 'Confirm Password',
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(5.0))),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formGlobalKey.currentState!.validate()) {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            Navigator.pushNamed(context, Routing.info,arguments: {
+                              'img':choosenImage.path,
+                              'fName':_fName.text,
+                              'lName':_lName.text,
+                              'phoneNumber':_mobNos.text,
+                              'email':_email.text,
+                              'gender':userRegisterProvider.genderType.toString(),
+                              'pwd':_passwd.text,
+                            });
+                          }
+                        },
+                        child: const Text("NEXT"),
+                      ),
+                    )
+                  ],
+                );
+              }),
             ),
           ),
         ),
       ),
     );
   }
+
   _bottomSheet(BuildContext context) async {
     print('_bottomSheet');
     await showModalBottomSheet(
@@ -363,10 +390,9 @@ class _UserRegisterState extends State<UserRegister> with InputValidationMixin {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () async{
-                  await getImage(ImageSource.gallery);
-                  Navigator.of(context).pop(true);
-
+                  onPressed: () async {
+                    await getImage(ImageSource.gallery);
+                    Navigator.of(context).pop(true);
                   },
                   style: ElevatedButton.styleFrom(
                       primary: const Color(0xff123456),
@@ -381,10 +407,10 @@ class _UserRegisterState extends State<UserRegister> with InputValidationMixin {
                     ),
                   ),
                 ),
-                ElevatedButton(,
-                  onPressed: () async{
-                  await  getImage(ImageSource.camera);
-                  Navigator.of(context).pop(true);
+                ElevatedButton(
+                  onPressed: () async {
+                    await getImage(ImageSource.camera);
+                    Navigator.of(context).pop(true);
                   },
                   style: ElevatedButton.styleFrom(
                       primary: Color(0xff123456),
@@ -407,16 +433,12 @@ class _UserRegisterState extends State<UserRegister> with InputValidationMixin {
         });
   }
 
-  getImage( ImageSource imageSource)async{
-    final choosenImage=await ImagePicker().pickImage(source: imageSource,maxWidth: 70,maxHeight: 70);
+  getImage(ImageSource imageSource) async {
+     choosenImage = await ImagePicker()
+        .pickImage(source: imageSource, maxWidth: 70, maxHeight: 70);
     if (choosenImage != null) {
-
-      Provider.of<UserRegisterProvider>(context, listen: false).getSelectedImg(File(choosenImage.path));
-
-
-
-
-
+      Provider.of<UserRegisterProvider>(context, listen: false)
+          .getSelectedImg(File(choosenImage.path));
     }
   }
 }

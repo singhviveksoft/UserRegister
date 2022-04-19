@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,27 +9,54 @@ import '../provider/address_provider.dart';
 import '../util/email_validated.dart';
 
 class Address extends StatefulWidget {
-  const Address({Key? key}) : super(key: key);
+  final String edu;
+  final String yop;
+  final String grade;
+  final String exp;
+  final String designation;
+  final String domain;
+  final String img;
+  final String fName;
+  final String lName;
+  final String phoneNumber;
+  final String email;
+  final String gender;
+  final String pwd;
+
+  const Address(
+      {Key? key,
+      required this.edu,
+      required this.yop,
+      required this.grade,
+      required this.exp,
+      required this.designation,
+      required this.domain,
+      required this.img,
+      required this.fName,
+      required this.lName,
+      required this.phoneNumber,
+      required this.email,
+      required this.gender,
+      required this.pwd})
+      : super(key: key);
 
   @override
   _AddressState createState() => _AddressState();
 }
 
-class _AddressState extends State<Address> with InputValidationMixin{
+class _AddressState extends State<Address> with InputValidationMixin {
   final _formGlobalKey = GlobalKey<FormState>();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _landmarkController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _pinCodeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
-        body: SafeArea(child:
-    Consumer<AddressProvider>(
-    builder: (context, addressProvider, child) {
+    print(widget.phoneNumber.toString());
+    return Scaffold(body: SafeArea(child:
+        Consumer<AddressProvider>(builder: (context, addressProvider, child) {
       return SingleChildScrollView(
-
         child: Form(
           key: _formGlobalKey,
           child: Container(
@@ -48,8 +73,7 @@ class _AddressState extends State<Address> with InputValidationMixin{
                 ),
                 const Text(
                   'Your Address',
-                  style: TextStyle(
-                      fontSize: 30.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 20.0,
@@ -63,6 +87,9 @@ class _AddressState extends State<Address> with InputValidationMixin{
                     return null;
                   },
                   decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      errorBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red, width: 1)),
                       prefixIcon: const Icon(
                         Icons.place,
                         color: Colors.black,
@@ -81,7 +108,6 @@ class _AddressState extends State<Address> with InputValidationMixin{
                   height: 20.0,
                 ),
                 TextFormField(
-
                   controller: _landmarkController,
                   validator: (String? value) {
                     if (!isNameValid(value!)) {
@@ -90,6 +116,9 @@ class _AddressState extends State<Address> with InputValidationMixin{
                     return null;
                   },
                   decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      errorBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red, width: 1)),
                       prefixIcon: const Icon(
                         Icons.place,
                         color: Colors.black,
@@ -117,6 +146,9 @@ class _AddressState extends State<Address> with InputValidationMixin{
                     return null;
                   },
                   decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      errorBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red, width: 1)),
                       prefixIcon: const Icon(
                         Icons.place,
                         color: Colors.black,
@@ -143,7 +175,13 @@ class _AddressState extends State<Address> with InputValidationMixin{
                     value: addressProvider.stateDropdown,
                     hint: const Text('Select'),
                     //  ask for position
-                    items: <String>[ 'Maharashtra', 'Gujarat', 'Karnataka','Madhya Pradesh','Delhi'].map((String value) {
+                    items: <String>[
+                      'Maharashtra',
+                      'Gujarat',
+                      'Karnataka',
+                      'Madhya Pradesh',
+                      'Delhi'
+                    ].map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -171,6 +209,9 @@ class _AddressState extends State<Address> with InputValidationMixin{
                   },
                   maxLength: 6,
                   decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      errorBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red, width: 1)),
                       prefixIcon: const Icon(
                         Icons.place,
                         color: Colors.black,
@@ -179,6 +220,7 @@ class _AddressState extends State<Address> with InputValidationMixin{
                       hintStyle: const TextStyle(
                         fontStyle: FontStyle.italic,
                       ),
+
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0)),
                       enabledBorder: OutlineInputBorder(
@@ -193,10 +235,29 @@ class _AddressState extends State<Address> with InputValidationMixin{
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                     /* var user= User('img','vivek','singh',7738927791,'v@mail','male','pwd','hh','hh','hh','hh','hh','hh','hh','hh','hh','hh','hh');
-                      final box = Boxes.getUser();
-                      box.add(user);*/
-                      if (_formGlobalKey.currentState!.validate()){
+                      if (_formGlobalKey.currentState!.validate()) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        var user = User(
+                            img: widget.img,
+                            fName: widget.fName,
+                            lName: widget.lName,
+                            phoneNumber: widget.phoneNumber,
+                            email: widget.email,
+                            gender: widget.gender,
+                            pwd: widget.pwd,
+                            edu: widget.edu,
+                            yop: widget.yop,
+                            grade: widget.grade,
+                            exp: widget.exp,
+                            designation: widget.designation,
+                            domain: widget.domain,
+                            address: _addressController.text,
+                            landmark: _landmarkController.text,
+                            city: _cityController.text,
+                            state: addressProvider.stateDropdown,
+                            pinCode: _pinCodeController.text);
+                        final box = Boxes.getUser();
+                        box.add(user);
                         Navigator.pushNamed(context, Routing.profile);
                       }
 
@@ -207,15 +268,11 @@ class _AddressState extends State<Address> with InputValidationMixin{
                     child: const Text("Submit"),
                   ),
                 )
-
-
               ],
             ),
           ),
         ),
       );
-    })
-
-        ));
+    })));
   }
 }

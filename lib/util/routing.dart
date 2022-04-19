@@ -22,7 +22,7 @@ class Routing {
       case info:
         return MaterialPageRoute(
           builder: (context) {
-            return Info();
+            return Info(img: valuePassed['img'],fName: valuePassed['fName'],lName: valuePassed['lName'],phoneNumber: valuePassed['phoneNumber'],email: valuePassed['email'],gender: valuePassed['gender'],pwd: valuePassed['pwd']);
           },
         );
       case profile:
@@ -42,7 +42,10 @@ class Routing {
       case address:
         return MaterialPageRoute(
           builder: (context) {
-            return const Address();
+            return  Address(
+                img: valuePassed['img'],fName: valuePassed['fName'],lName: valuePassed['lName'],phoneNumber: valuePassed['phoneNumber'],email: valuePassed['email'],gender: valuePassed['gender'],pwd: valuePassed['pwd'],
+              edu: valuePassed['edu'],yop: valuePassed['yop'],grade: valuePassed['grade'],exp: valuePassed['exp'],designation: valuePassed['designation'],domain: valuePassed['domain']
+            );
           },
         );
 

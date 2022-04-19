@@ -9,7 +9,14 @@ import '../util/email_validated.dart';
 import '../util/routing.dart';
 
 class Info extends StatefulWidget {
-  const Info({Key? key}) : super(key: key);
+ final String img;
+ final String fName;
+ final String lName;
+ final String phoneNumber;
+ final String email;
+ final String gender;
+ final String pwd;
+  const Info({Key? key,required this.img,required this.fName,required this.lName,required this.phoneNumber,required this.email,required this.gender,required this.pwd,}) : super(key: key);
 
   @override
   _InfoState createState() => _InfoState();
@@ -22,6 +29,7 @@ class _InfoState extends State<Info> with InputValidationMixin{
 
   @override
   Widget build(BuildContext context) {
+    print(widget.fName.toString());
     return Scaffold(
         body: SafeArea(
           child: Container(
@@ -153,6 +161,10 @@ class _InfoState extends State<Info> with InputValidationMixin{
                               return null;
                             },
                             decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                errorBorder: const OutlineInputBorder(
+
+                                    borderSide: BorderSide(color: Colors.red, width:1)) ,
                                 hintText: 'Enter your grade',
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5.0)),
@@ -203,6 +215,10 @@ class _InfoState extends State<Info> with InputValidationMixin{
                               return null;
                             },
                             decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                errorBorder: const OutlineInputBorder(
+
+                                    borderSide: BorderSide(color: Colors.red, width:1)) ,
                                 hintText: 'Enter your Experience',
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5.0)),
@@ -285,7 +301,23 @@ class _InfoState extends State<Info> with InputValidationMixin{
                               ElevatedButton(
                                 onPressed: () {
        if (_formGlobalKey.currentState!.validate()) {
-      Navigator.pushNamed(context, Routing.address);
+         FocusManager.instance.primaryFocus?.unfocus();
+      Navigator.pushNamed(context, Routing.address,arguments: {
+        'img':widget.img,
+        'fName':widget.fName,
+        'lName':widget.lName,
+        'phoneNumber':widget.phoneNumber,
+        'email':widget.email,
+        'gender':widget.gender,
+        'pwd':widget.pwd,
+
+        'edu':infoProvider.eduDropdown,
+        'yop':infoProvider.yopDropdown,
+        'grade':_gradeController.text,
+        'exp':_experienceController.text,
+        'designation':infoProvider.designationDropdown,
+        'domain':infoProvider.domainDropdown,
+      });
     }
 
                                 },
