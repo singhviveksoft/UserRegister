@@ -32,9 +32,25 @@ class _ProfileState extends State<Profile> {
             return user.length>0?
                Card(
 
-                child: Column(
+                child:user[index].img!.isNotEmpty? Column(
                   children: [
-                    Image.file(File(user[index].img.toString())),
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.file(File(user[index].img.toString()),fit: BoxFit.cover,
+                          width: 100,
+                          height: 100,)),
+                    Text(user[index].fName.toString()),
+                    Text(user[index].lName.toString()),
+                    Text(user[index].phoneNumber.toString()),
+                    Text(user[index].email.toString()),
+                  ],
+                ):Column(
+                  children: [
+                    SizedBox(
+
+                        width: 100,
+                        height: 100,
+                        child: Image.asset('images/user.png',fit: BoxFit.cover,)),
                     Text(user[index].fName.toString()),
                     Text(user[index].lName.toString()),
                     Text(user[index].phoneNumber.toString()),
@@ -51,7 +67,7 @@ class _ProfileState extends State<Profile> {
   }
   @override
   void dispose() {
-    Hive.close();
+
     super.dispose();
   }
 }

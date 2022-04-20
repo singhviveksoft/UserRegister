@@ -52,17 +52,20 @@ class _UserRegisterState extends State<UserRegister> with InputValidationMixin {
                         _bottomSheet(context);
                       },
                       child: userRegisterProvider.image == null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: SizedBox(
+                          ? SizedBox(
 
-                                  width: 100,
-                                  height: 100,
-                                  child: Image.asset('images/user.png',fit: BoxFit.contain,)))
-                          : Image.file(
-                              userRegisterProvider.image!,
-                              fit: BoxFit.cover,
-                            ),
+                              width: 100,
+                              height: 100,
+                              child: Image.asset('images/user.png',fit: BoxFit.cover,))
+                          : ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                            child: Image.file(
+                                userRegisterProvider.image!,
+                                fit: BoxFit.cover,
+                              width: 100,
+                                height: 100,
+                              ),
+                          ),
                     ),
                     const Align(
                       alignment: Alignment.topLeft,
@@ -355,6 +358,17 @@ class _UserRegisterState extends State<UserRegister> with InputValidationMixin {
                         onPressed: () {
                           if (_formGlobalKey.currentState!.validate()) {
                             FocusManager.instance.primaryFocus?.unfocus();
+                            if(choosenImage==null){
+                              Navigator.pushNamed(context, Routing.info,arguments: {
+                                'img':'',
+                                'fName':_fName.text,
+                                'lName':_lName.text,
+                                'phoneNumber':_mobNos.text,
+                                'email':_email.text,
+                                'gender':userRegisterProvider.genderType.toString(),
+                                'pwd':_passwd.text,
+                              });
+                            }
                             Navigator.pushNamed(context, Routing.info,arguments: {
                               'img':choosenImage.path,
                               'fName':_fName.text,
@@ -435,7 +449,7 @@ class _UserRegisterState extends State<UserRegister> with InputValidationMixin {
 
   getImage(ImageSource imageSource) async {
      choosenImage = await ImagePicker()
-        .pickImage(source: imageSource, maxWidth: 70, maxHeight: 70);
+        .pickImage(source: imageSource, maxWidth: 100, maxHeight: 100);
     if (choosenImage != null) {
       Provider.of<UserRegisterProvider>(context, listen: false)
           .getSelectedImg(File(choosenImage.path));

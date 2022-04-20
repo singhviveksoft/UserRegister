@@ -297,7 +297,9 @@ class _InfoState extends State<Info> with InputValidationMixin{
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              ElevatedButton(onPressed: () {}, child: Text('Previous')),
+                              ElevatedButton(onPressed: () {
+                                Navigator.pop(context);
+                              }, child: Text('Previous')),
                               ElevatedButton(
                                 onPressed: () {
        if (_formGlobalKey.currentState!.validate()) {
