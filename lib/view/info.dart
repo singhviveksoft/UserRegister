@@ -3,10 +3,20 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_register/widgets/sizebox/between_editbox_widget.dart';
 
 import '../provider/info_provider.dart';
 import '../util/email_validated.dart';
+import '../util/fieldtype.dart';
 import '../util/routing.dart';
+import '../widgets/button/elevated_btn/elevated_btn_submit.dart';
+import '../widgets/button/outline_btn/back_press_outlinen_btn.dart';
+import '../widgets/dropdown/form_dropdown.dart';
+import '../widgets/image/back_icon.dart';
+import '../widgets/text/TitleTextWidget.dart';
+import '../widgets/text/header_title.dart';
+import '../widgets/textformfill/textformfillwidget.dart';
+
 
 class Info extends StatefulWidget {
   final String img;
@@ -34,8 +44,6 @@ class Info extends StatefulWidget {
 
 class _InfoState extends State<Info> with InputValidationMixin {
   final _formGlobalKey = GlobalKey<FormState>();
-  final TextEditingController _gradeController = TextEditingController();
-  final TextEditingController _experienceController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,136 +63,57 @@ class _InfoState extends State<Info> with InputValidationMixin {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: const Align(
-                        alignment: Alignment.topLeft,
-                        child: Icon(Icons.arrow_back)),
+                    child: const BackIcon()
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
-                      Text(
-                        'Your Info',
-                        style: TextStyle(
-                            fontSize: 30.0, fontWeight: FontWeight.bold),
+                      HeaderTitleText(
+                        title: 'Your Info',
                       )
                     ],
                   ),
-                  const Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 0.0, top: 8.0, right: 0.0, bottom: 8.0),
-                        child: Text(
-                          'Educational Info',
-                          style: TextStyle(
-                              fontSize: 18.0, fontWeight: FontWeight.bold),
-                        ),
-                      )),
-                  const Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Education*',
-                        style: TextStyle(
-                            fontSize: 15.0, fontWeight: FontWeight.bold),
-                      )),
-                  Container(
-                    padding: const EdgeInsets.only(
-                        left: 8.0, top: 0.0, right: 0.0, bottom: 0.0),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 1.0)),
-                    child: DropdownButton<String>(
-                      value: infoProvider.eduDropdown,
-                      hint: Text('Select'),
-                      //  ask for position
-                      items: <String>[
-                        'Post Graduate',
-                        'Graduate',
-                        'HSC/Diploma',
-                        'SSC'
-                      ].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newvalue) {
-                        infoProvider.getEducation(newvalue!);
-                      },
-
-                      isExpanded: true,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(20.0)),
-                    ),
+                  const TitleText(title: 'Educational Info'),
+                  const TitleText(
+                    title: 'Education*',
                   ),
-                  const Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
-                        child: Text(
-                          'Year of Passing *',
-                          style: TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.bold),
-                        ),
-                      )),
-                  Container(
-                    padding: const EdgeInsets.only(
-                        left: 8.0, top: 0.0, right: 0.0, bottom: 0.0),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 1.0)),
-                    child: DropdownButton<String>(
-                      value: infoProvider.yopDropdown,
-                      hint: const Text('Select'),
-                      //  ask for position
-                      items: <String>['2015', '2016', '2017', '2018']
-                          .map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newvalue) {
-                        infoProvider.getYOP(newvalue!);
-                      },
-
-                      isExpanded: true,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(20.0)),
-                    ),
-                  ),
-                  const Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
-                      child: Text(
-                        'Grade *',
-                        style: TextStyle(
-                            fontSize: 15.0, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    controller: _gradeController,
-                    validator: (String? value) {
-                      if (isEmptyValid(value!)) {
-                        return " Grade Can't be empty ";
-                      }
-                      return null;
+                  DropDownForm(
+                    value: infoProvider.eduDropdown,
+                    dropDownList: const ['Post Graduate',
+                      'Graduate',
+                      'HSC/Diploma',
+                      'SSC'],
+                    onItemChange: (newValue){
+                      infoProvider.getEducation(newValue);
                     },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        errorBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.red, width: 1)),
-                        hintText: 'Enter your grade',
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0)),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(5.0))),
                   ),
-                  const SizedBox(
+
+
+                  const TitleText(
+                    title: 'Year of Passing *',
+                  ),
+
+                  DropDownForm(
+                    value: infoProvider.yopDropdown,
+                    dropDownList: const ['2015', '2016', '2017', '2018'],
+                    onItemChange: (newValue){
+                      infoProvider.getYOP(newValue);
+                    },
+                  ),
+
+
+                  const TitleText(
+                    title: 'Grade *',
+                  ),
+                  TextFormFillWidget(
+                    iconData: Icons.person,
+                    errorMsg: " Grade Can't be empty ",
+                    hintMsg: 'Enter your grade',
+                    editingController: infoProvider.gradeController,
+                    textLength: null,
+                    fieldType: FieldType.GRADE,
+                  ),
+                  const SizeBetweenEditBox(
                     height: 20.0,
                   ),
                   const Divider(
@@ -192,174 +121,69 @@ class _InfoState extends State<Info> with InputValidationMixin {
                     height: 10,
                     color: Colors.grey,
                   ),
-                  const Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
-                      child: Text(
-                        'Professional Info',
-                        style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                  const TitleText(
+                    title: 'Professional Info',
                   ),
-                  const Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
-                      child: Text(
-                        'Experience*',
-                        style: TextStyle(
-                            fontSize: 15.0, fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                  const TitleText(
+                    title: 'Experience*',
                   ),
-                  TextFormField(
-                    keyboardType: TextInputType.number,
-                    controller: _experienceController,
-                    validator: (String? value) {
-                      if (isEmptyValid(value!)) {
-                        return " Experience Can't be empty ";
-                      }
-                      return null;
+                  TextFormFillWidget(
+                    errorMsg: "Experience Can't be empty",
+                    hintMsg: 'Enter your Experience',
+                    editingController: infoProvider.experienceController,
+                    textLength: 2,
+                    inputType: TextInputType.number,
+                    fieldType: FieldType.EXP,
+                    iconData: Icons.person,
+                  ),
+                  const TitleText(
+                    title: 'Designation*',
+                  ),
+
+                  DropDownForm(
+                    value: infoProvider.designationDropdown,
+                    dropDownList: const ['Trainer', 'Jr', 'Sr', 'Manager'],
+                    onItemChange: (newValue){
+                      infoProvider.getDesignation(newValue);
                     },
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        errorBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.red, width: 1)),
-                        hintText: 'Enter your Experience',
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0)),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(5.0))),
                   ),
-                  const Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
-                        child: Text(
-                          'Designation*',
-                          style: TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.bold),
-                        ),
-                      )),
-                  Container(
-                    padding: const EdgeInsets.only(
-                        left: 8.0, top: 0.0, right: 0.0, bottom: 0.0),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 1.0)),
-                    child: DropdownButton<String>(
-                      value: infoProvider.designationDropdown,
-                      hint: const Text('Select'),
-                      //  ask for position
-                      items: <String>['Trainer', 'Jr', 'Sr', 'Manager']
-                          .map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newvalue) {
-                        infoProvider.getDesignation(newvalue!);
-                      },
 
-                      isExpanded: true,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(20.0)),
-                    ),
-                  ),
-                  const Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 0.0, top: 8.0, right: 0.0, bottom: 0.0),
-                        child: Text(
-                          'Domain*',
-                          style: TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.bold),
-                        ),
-                      )),
-                  Container(
-                    padding: const EdgeInsets.only(
-                        left: 8.0, top: 0.0, right: 0.0, bottom: 0.0),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 1.0)),
-                    child: DropdownButton<String>(
-                      value: infoProvider.domainDropdown,
-                      hint: const Text('Select'),
-                      //  ask for position
-                      items: <String>['Testing', 'Mobile', 'Web', 'Desktop']
-                          .map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newvalue) {
-                        infoProvider.getDomain(newvalue!);
-                      },
 
-                      isExpanded: true,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(20.0)),
-                    ),
+                  const TitleText(
+                    title: 'Domain*',
                   ),
+
+                  DropDownForm(
+                    value: infoProvider.domainDropdown,
+                    dropDownList: const ['Testing', 'Mobile', 'Web', 'Desktop'],
+                    onItemChange: (newValue){
+                      infoProvider.getDomain(newValue);
+                    },
+                  ),
+
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
+                      PreviousOutlinedBtn(
                         width: 100,
-
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              side: const BorderSide(
-                                width: 2,
-                                color: Colors.blue,
-                              ),
-                              primary: Colors.white
-                              ,
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Previous',style: TextStyle(
-                              color: Colors.blueAccent
-                            ),)),
+                        height: null,
+                        onClick: () {
+                          Navigator.pop(context);
+                        },
+                        btnText: 'Previous',
                       ),
-                      SizedBox(
+                      ElevatedBtnSubmit(
                         width: 100,
-                        child: ElevatedButton(
-
-                          onPressed: () {
-                            if (_formGlobalKey.currentState!.validate()) {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              Navigator.pushNamed(context, Routing.address,
-                                  arguments: {
-                                    'img': widget.img,
-                                    'fName': widget.fName,
-                                    'lName': widget.lName,
-                                    'phoneNumber': widget.phoneNumber,
-                                    'email': widget.email,
-                                    'gender': widget.gender,
-                                    'pwd': widget.pwd,
-                                    'edu': infoProvider.eduDropdown,
-                                    'yop': infoProvider.yopDropdown,
-                                    'grade': _gradeController.text,
-                                    'exp': _experienceController.text,
-                                    'designation':
-                                        infoProvider.designationDropdown,
-                                    'domain': infoProvider.domainDropdown,
-                                  });
-                            }
-                          },
-                          child: const Text('Next'),
-                        ),
-                      )
+                        height: null,
+                        onClick: () {
+                          if (_formGlobalKey.currentState!.validate()) {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            openAddressScreen(infoProvider);
+                          }
+                        },
+                        btnText: "Next",
+                      ),
                     ],
                   )
                 ],
@@ -369,5 +193,25 @@ class _InfoState extends State<Info> with InputValidationMixin {
         ),
       ),
     ));
+  }
+
+
+
+  openAddressScreen(InfoProvider infoProvider) {
+    Navigator.pushNamed(context, Routing.address, arguments: {
+      'img': widget.img,
+      'fName': widget.fName,
+      'lName': widget.lName,
+      'phoneNumber': widget.phoneNumber,
+      'email': widget.email,
+      'gender': widget.gender,
+      'pwd': widget.pwd,
+      'edu': infoProvider.eduDropdown,
+      'yop': infoProvider.yopDropdown,
+      'grade': infoProvider.gradeController.text,
+      'exp': infoProvider.experienceController.text,
+      'designation': infoProvider.designationDropdown,
+      'domain': infoProvider.domainDropdown,
+    });
   }
 }

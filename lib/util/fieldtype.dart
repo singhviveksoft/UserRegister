@@ -1,0 +1,15 @@
+enum FieldType{
+  FNAME,
+  LNAME,
+  MOB,
+  EMAIL,
+  PWD,
+  COINFPWD,
+  EXP,
+  GRADE,
+  ADDRESS,
+  LANDMARK,
+  CITY,
+  PINCODE,
+
+}

@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
             return UserRegisterProvider();
           },
         ),
+
         ChangeNotifierProvider<InfoProvider>(
           create: (context) {
             return InfoProvider();

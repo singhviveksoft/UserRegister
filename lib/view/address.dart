@@ -7,6 +7,13 @@ import 'package:user_register/util/routing.dart';
 import '../data/boxe.dart';
 import '../provider/address_provider.dart';
 import '../util/email_validated.dart';
+import '../util/fieldtype.dart';
+import '../widgets/button/elevated_btn/elevated_btn_submit.dart';
+import '../widgets/dropdown/form_dropdown.dart';
+import '../widgets/image/back_icon.dart';
+import '../widgets/sizebox/between_editbox_widget.dart';
+import '../widgets/text/header_title.dart';
+import '../widgets/textformfill/textformfillwidget.dart';
 
 class Address extends StatefulWidget {
   final String edu;
@@ -46,14 +53,10 @@ class Address extends StatefulWidget {
 
 class _AddressState extends State<Address> with InputValidationMixin {
   final _formGlobalKey = GlobalKey<FormState>();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _landmarkController = TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
-  final TextEditingController _pinCodeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    print(widget.phoneNumber.toString());
+    print(widget.exp.toString());
     return Scaffold(body: SafeArea(child:
         Consumer<AddressProvider>(builder: (context, addressProvider, child) {
       return SingleChildScrollView(
@@ -67,212 +70,122 @@ class _AddressState extends State<Address> with InputValidationMixin {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: const Align(
-                      alignment: Alignment.topLeft,
-                      child: Icon(Icons.arrow_back)),
+                  child: const BackIcon()
                 ),
-                const Text(
-                  'Your Address',
-                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+
+                const HeaderTitleText(
+                  title: 'Your Address',
                 ),
-                const SizedBox(
+
+                const SizeBetweenEditBox(
                   height: 20.0,
                 ),
-                TextFormField(
-                  controller: _addressController,
-                  validator: (String? value) {
-                    if (!isNameValid(value!)) {
-                      return 'Not less than 3 character';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      errorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red, width: 1)),
-                      prefixIcon: const Icon(
-                        Icons.place,
-                        color: Colors.black,
-                      ),
-                      hintText: 'Address',
-                      hintStyle: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(5.0))),
+                TextFormFillWidget(
+                  iconData: Icons.location_city,
+                  errorMsg: 'Not less than 3 character',
+                  hintMsg: 'Address',
+                  editingController: addressProvider.addressController,
+                  textLength: null,
+                  fieldType: FieldType.ADDRESS,
                 ),
-                const SizedBox(
+                const SizeBetweenEditBox(
                   height: 20.0,
                 ),
-                TextFormField(
-                  controller: _landmarkController,
-                  validator: (String? value) {
-                    if (!isNameValid(value!)) {
-                      return 'Not less than 3 character';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      errorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red, width: 1)),
-                      prefixIcon: const Icon(
-                        Icons.place,
-                        color: Colors.black,
-                      ),
-                      hintText: 'Landmark',
-                      hintStyle: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(5.0))),
+                TextFormFillWidget(
+                  iconData: Icons.location_city,
+                  errorMsg: 'Not less than 3 character',
+                  hintMsg: 'Landmark',
+                  editingController: addressProvider.landmarkController,
+                  textLength: null,
+                  fieldType: FieldType.LANDMARK,
                 ),
-                const SizedBox(
+                const SizeBetweenEditBox(
                   height: 20.0,
                 ),
-                TextFormField(
-                  keyboardType: TextInputType.text,
-                  controller: _cityController,
-                  validator: (String? value) {
-                    if (!isNameValid(value!)) {
-                      return 'Not less than 3 character';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      errorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red, width: 1)),
-                      prefixIcon: const Icon(
-                        Icons.place,
-                        color: Colors.black,
-                      ),
-                      hintText: 'City',
-                      hintStyle: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(5.0))),
+                TextFormFillWidget(
+                  inputType: TextInputType.text,
+                  iconData: Icons.location_city,
+                  errorMsg: 'Not less than 3 character',
+                  hintMsg: 'City',
+                  editingController: addressProvider.cityController,
+                  textLength: null,
+                  fieldType: FieldType.CITY,
                 ),
-                const SizedBox(
+                const SizeBetweenEditBox(
                   height: 20.0,
                 ),
-                Container(
-                  padding: const EdgeInsets.only(
-                      left: 8.0, top: 0.0, right: 0.0, bottom: 0.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 1.0)),
-                  child: DropdownButton<String>(
-                    value: addressProvider.stateDropdown,
-                    hint: const Text('Select'),
-                    //  ask for position
-                    items: <String>[
-                      'Maharashtra',
+
+                  DropDownForm(
+                    value:  addressProvider.stateDropdown,
+                    dropDownList: const ['Maharashtra',
                       'Gujarat',
                       'Karnataka',
                       'Madhya Pradesh',
-                      'Delhi'
-                    ].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? newvalue) {
-                      addressProvider.getState(newvalue!);
+                      'Delhi'],
+                    onItemChange: (newValue){
+                      addressProvider.getState(newValue);
                     },
-
-                    isExpanded: true,
-                    borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                   ),
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  controller: _pinCodeController,
-                  validator: (String? value) {
-                    if (!isPinCodeValid(value!)) {
-                      return 'Enter PinCode of 6 digits';
-                    }
-                    return null;
-                  },
-                  maxLength: 6,
-                  decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      errorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red, width: 1)),
-                      prefixIcon: const Icon(
-                        Icons.place,
-                        color: Colors.black,
-                      ),
-                      hintText: 'PinCode',
-                      hintStyle: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
 
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(5.0))),
-                ),
-                const SizedBox(
+
+
+
+                const SizeBetweenEditBox(
                   height: 20.0,
                 ),
-                SizedBox(
+                TextFormFillWidget(
+                  inputType: TextInputType.number,
+                  iconData: Icons.location_city,
+                  errorMsg: 'Enter PinCode of 6 digits',
+                  hintMsg: 'PinCode',
+                  editingController: addressProvider.pinCodeController,
+                  textLength: 6,
+                  fieldType: FieldType.PINCODE,
+                ),
+                const SizeBetweenEditBox(
+                  height: 20.0,
+                ),
+                ElevatedBtnSubmit(
                   width: double.infinity,
                   height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formGlobalKey.currentState!.validate()) {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        var user = User(
-                            img: widget.img,
-                            fName: widget.fName,
-                            lName: widget.lName,
-                            phoneNumber: widget.phoneNumber,
-                            email: widget.email,
-                            gender: widget.gender,
-                            pwd: widget.pwd,
-                            edu: widget.edu,
-                            yop: widget.yop,
-                            grade: widget.grade,
-                            exp: widget.exp,
-                            designation: widget.designation,
-                            domain: widget.domain,
-                            address: _addressController.text,
-                            landmark: _landmarkController.text,
-                            city: _cityController.text,
-                            state: addressProvider.stateDropdown,
-                            pinCode: _pinCodeController.text);
-                        final box = Boxes.getUser();
-                        box.add(user);
-                        Navigator.pushNamed(context, Routing.profile);
-                      }
-
-                      /*if (_formGlobalKey.currentState!.validate()) {
-                          Navigator.pushNamed(context, Routing.info);
-                        }*/
-                    },
-                    child: const Text("Submit"),
-                  ),
-                )
+                  onClick: () {
+                    if (_formGlobalKey.currentState!.validate()) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      addItemToDB(addressProvider);
+                    }
+                  },
+                  btnText: "Submit",
+                ),
               ],
             ),
           ),
         ),
       );
     })));
+  }
+
+  addItemToDB(AddressProvider addressProvider) {
+    var user = User(
+        img: widget.img,
+        fName: widget.fName,
+        lName: widget.lName,
+        phoneNumber: widget.phoneNumber,
+        email: widget.email,
+        gender: widget.gender,
+        pwd: widget.pwd,
+        edu: widget.edu,
+        yop: widget.yop,
+        grade: widget.grade,
+        exp: widget.exp,
+        designation: widget.designation,
+        domain: widget.domain,
+        address: addressProvider.addressController.text,
+        landmark: addressProvider.landmarkController.text,
+        city: addressProvider.cityController.text,
+        state: addressProvider.stateDropdown,
+        pinCode: addressProvider.pinCodeController.text);
+    final box = Boxes.getUser();
+    box.add(user);
+    Navigator.pushNamed(context, Routing.profile);
   }
 }

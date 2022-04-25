@@ -5,6 +5,10 @@ class InfoProvider extends ChangeNotifier{
  String yopDropdown='2015';
  String designationDropdown='Trainer';
  String domainDropdown='Testing';
+
+ final TextEditingController gradeController = TextEditingController();
+ final TextEditingController experienceController = TextEditingController();
+
   getEducation(String edu){
     eduDropdown=edu;
     notifyListeners();
